@@ -23,11 +23,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'Animal name is required' }, { status: 400 });
   }
 
-  const apiKey = process.env.NEXT_PUBLIC_API_KEY;  
+  console.log('process env ', process.env);
+  
+
+  const apiKey = process.env.API_KEY;  
   const apiUrl = `https://api.api-ninjas.com/v1/animals?name=${encodeURIComponent(animalName)}`;
 
   console.log('bobby 1', apiKey);
-  console.log('CHIPS', process.env.NEXT_PUBLIC_CHIPS);
+  console.log('CHIPS', process.env.CHIPS);
   
 
   try {
