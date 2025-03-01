@@ -42,18 +42,24 @@ export default function Home() {
     setIsLoading(true);
     setSubmittedName(animalName);
     try {
-      setError(null);
+      setError(null); // Reset error state
       const response = await fetch(
         `/api/animal?animalName=${encodeURIComponent(animalName)}`
       );
       if (!response.ok) {
-        throw new Error('Failed to fetch animal data');
+        if (response.status === 404) {
+          setError(`The animal "${animalName}" does not exist.  This app is only intended to be used by informed people on animal matters`); // Specific 404 message
+          setAnimalData(null);
+          return; // Exit early after setting the 404 error
+        } else {
+          throw new Error('Failed to fetch animal data'); // Generic error for other issues
+        }
       }
       const data: AnimalData = await response.json();
       setAnimalData(data);
     } catch (err) {
       console.error(err);
-      setError('API error');
+      setError('API error'); // Generic error message
       setAnimalData(null);
     } finally {
       setIsLoading(false);
@@ -64,12 +70,12 @@ export default function Home() {
     if (!str) return '';
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
-    function capitalizeWords(str: string): string {
-        return str
-            .split(' ')
-            .map(word => capitalize(word))
-            .join(' ');
-    }
+  function capitalizeWords(str: string): string {
+    return str
+      .split(' ')
+      .map(word => capitalize(word))
+      .join(' ');
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-start p-6">
@@ -160,13 +166,13 @@ export default function Home() {
                 <h3 className="text-lg font-semibold text-gray-700 mb-2">
                   Characteristics:
                 </h3>
-                <table className="w-full table-auto border-collapse border border-gray-400 text-gray-600">
+                <table className="w-full table-auto border-collapse border border-gray-400 text-gray-700">
                   <tbody>
                     {Object.entries(animalData.characteristics).map(
                       ([key, value]) => (
                         <tr key={key} className="border border-gray-400">
                           <td className="border border-gray-400 px-2 py-1 font-medium">
-                            {capitalizeWords(key.split('_').join(' '))} 
+                            {capitalizeWords(key.split('_').join(' '))}
                           </td>
                           <td className="border border-gray-400 px-2 py-1">
                             {value}
