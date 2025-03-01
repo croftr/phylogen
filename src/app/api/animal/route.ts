@@ -27,6 +27,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const apiUrl = `https://api.api-ninjas.com/v1/animals?name=${encodeURIComponent(animalName)}`;
 
   console.log('bobby 1', apiKey);
+  console.log('CHIPS', process.env.CHIPS);
   
 
   try {
