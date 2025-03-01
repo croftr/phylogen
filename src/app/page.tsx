@@ -48,7 +48,7 @@ export default function Home() {
       );
       if (!response.ok) {
         if (response.status === 404) {
-          setError(`The animal "${animalName}" does not exist.  This app is only intended to be used by informed people on animal matters`); // Specific 404 message
+          setError(`The animal "${animalName}" does not exist.  This app is only intended to be used by professional biologists or those informed on animal matters.`); // Specific 404 message
           setAnimalData(null);
           return; // Exit early after setting the 404 error
         } else {
@@ -81,7 +81,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-start p-6">
       <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full flex flex-col">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          {`${capitalize(submittedName) || 'Animal'} Taxonomy`}
+          Animal Taxonomy
         </h1>
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <input
