@@ -23,21 +23,16 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'Animal name is required' }, { status: 400 });
   }
 
-  console.log('process env ', process.env);
-  
 
-  const apiKey = process.env.API_KEY;  
+  const randomString = 'UMTGp4WbK3k1F+cx2rT1VQ==ggieWfvctGM9xctZ';  
   const apiUrl = `https://api.api-ninjas.com/v1/animals?name=${encodeURIComponent(animalName)}`;
-
-  console.log('bobby 1', apiKey);
-  console.log('CHIPS', process.env.CHIPS);
+  console.log('bobby 1', randomString);
   
-
   try {
 
     const response = await fetch(apiUrl, {
         headers: {
-          'X-Api-Key': apiKey as string, 
+          'X-Api-Key': randomString as string, 
         },
       });
     
