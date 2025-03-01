@@ -1,6 +1,21 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
+
+const continentImages: { [key: string]: string } = {
+  Africa: '/images/africa.png',
+  Antarctica: '/images/antarctica.png',
+  Asia: '/images/asia.png',
+  Australia: '/images/australia.png',
+  Europe: '/images/europe.png',
+  Eurasia: '/images/europe.png',  
+  "North-America": '/images/north-america.png',
+  "South-America": '/images/south-america.png',
+  Ocean: '/images/ocean.png',
+  Oceania: '/images/oceania.png',
+  'Central-America': '/images/central-america.png',
+};
 
 interface AnimalData {
   name: string;
@@ -12,6 +27,7 @@ interface AnimalData {
     family: string;
     genus: string;
   };
+  locations: string[];
 }
 
 export default function Home() {
@@ -49,8 +65,8 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-6">
-      <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-start p-6">
+      <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full flex flex-col">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           {`${capitalize(submittedName) || 'Animal'} Taxonomy`}
         </h1>
@@ -70,9 +86,8 @@ export default function Home() {
           <button
             onClick={handleSearch}
             disabled={isLoading}
-            className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md w-full sm:w-auto transition-colors duration-200 ${
-              isLoading ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
+            className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md w-full sm:w-auto transition-colors duration-200 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
           >
             {isLoading ? 'Searching...' : 'Search'}
           </button>
@@ -81,30 +96,61 @@ export default function Home() {
         {error && <p className="text-red-500 mb-4">{error}</p>}
 
         {animalData && (
-          <div className="bg-gray-50 p-4 rounded-md">
-            <h2 className="text-xl font-semibold text-gray-700 mb-4">
-              {animalData.name}
-            </h2>
-            <div className="grid grid-cols-2 gap-y-2"> {/* CSS Grid container */}
-              <p className="text-gray-600 font-medium">Kingdom:</p>
-              <p className="text-gray-600">{animalData.taxonomy.kingdom}</p>
+          <div>
+            <div className="bg-gray-50 p-4 rounded-md">
+              <h2 className="text-xl font-semibold text-gray-700 mb-4">
+                {animalData.name}
+              </h2>
+              <div className="grid grid-cols-2 gap-y-2"> {/* CSS Grid container */}
+                <p className="text-gray-600 font-medium">Kingdom:</p>
+                <p className="text-gray-600">{animalData.taxonomy.kingdom}</p>
 
-              <p className="text-gray-600 font-medium">Phylum:</p>
-              <p className="text-gray-600">{animalData.taxonomy.phylum}</p>
+                <p className="text-gray-600 font-medium">Phylum:</p>
+                <p className="text-gray-600">{animalData.taxonomy.phylum}</p>
 
-              <p className="text-gray-600 font-medium">Class:</p>
-              <p className="text-gray-600">{animalData.taxonomy.class}</p>
+                <p className="text-gray-600 font-medium">Class:</p>
+                <p className="text-gray-600">{animalData.taxonomy.class}</p>
 
-              <p className="text-gray-600 font-medium">Order:</p>
-              <p className="text-gray-600">{animalData.taxonomy.order}</p>
+                <p className="text-gray-600 font-medium">Order:</p>
+                <p className="text-gray-600">{animalData.taxonomy.order}</p>
 
-              <p className="text-gray-600 font-medium">Family:</p>
-              <p className="text-gray-600">{animalData.taxonomy.family}</p>
+                <p className="text-gray-600 font-medium">Family:</p>
+                <p className="text-gray-600">{animalData.taxonomy.family}</p>
 
-              <p className="text-gray-600 font-medium">Genus:</p>
-              <p className="text-gray-600">{animalData.taxonomy.genus}</p>
+                <p className="text-gray-600 font-medium">Genus:</p>
+                <p className="text-gray-600">{animalData.taxonomy.genus}</p>
+              </div>
+            </div>
+                           
+              
+              <div>
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                Found in:
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {animalData.locations.map((location) => (
+                  <span
+                    key={location}
+                    className={`bg-gradient-to-tl from-blue-400 to-blue-800 text-white px-3 py-1 rounded-full text-sm flex gap-2 items-center`} // Updated styling here
+                  >
+                    <div key={location} className="relative w-6 h-6">
+                      <Image
+                        src={
+                          continentImages[location] ||
+                          '/images/default.png'
+                        }
+                        alt={location}
+                        fill
+                        className="rounded-full"
+                      />
+                    </div>
+                    {location}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
+          
         )}
       </div>
     </div>
