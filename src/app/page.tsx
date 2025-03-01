@@ -9,9 +9,9 @@ const continentImages: { [key: string]: string } = {
   Asia: '/images/asia.png',
   Australia: '/images/australia.png',
   Europe: '/images/europe.png',
-  Eurasia: '/images/europe.png',  
-  "North-America": '/images/north-america.png',
-  "South-America": '/images/south-america.png',
+  Eurasia: '/images/europe.png',
+  'North-America': '/images/north-america.png',
+  'South-America': '/images/south-america.png',
   Ocean: '/images/ocean.png',
   Oceania: '/images/oceania.png',
   'Central-America': '/images/central-america.png',
@@ -28,6 +28,7 @@ interface AnimalData {
     genus: string;
   };
   locations: string[];
+  characteristics: Record<string, string>;
 }
 
 export default function Home() {
@@ -63,6 +64,12 @@ export default function Home() {
     if (!str) return '';
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
+    function capitalizeWords(str: string): string {
+        return str
+            .split(' ')
+            .map(word => capitalize(word))
+            .join(' ');
+    }
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-start p-6">
@@ -86,8 +93,9 @@ export default function Home() {
           <button
             onClick={handleSearch}
             disabled={isLoading}
-            className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md w-full sm:w-auto transition-colors duration-200 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+            className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md w-full sm:w-auto transition-colors duration-200 ${
+              isLoading ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
           >
             {isLoading ? 'Searching...' : 'Search'}
           </button>
@@ -97,11 +105,11 @@ export default function Home() {
 
         {animalData && (
           <div>
-            <div className="bg-gray-50 p-4 rounded-md">
+            <div className="bg-gray-50 p-4 rounded-md mb-4">
               <h2 className="text-xl font-semibold text-gray-700 mb-4">
                 {animalData.name}
               </h2>
-              <div className="grid grid-cols-2 gap-y-2"> {/* CSS Grid container */}
+              <div className="grid grid-cols-2 gap-y-2">
                 <p className="text-gray-600 font-medium">Kingdom:</p>
                 <p className="text-gray-600">{animalData.taxonomy.kingdom}</p>
 
@@ -121,9 +129,8 @@ export default function Home() {
                 <p className="text-gray-600">{animalData.taxonomy.genus}</p>
               </div>
             </div>
-                           
-              
-              <div>
+
+            <div className="mb-4">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">
                 Found in:
               </h3>
@@ -131,13 +138,12 @@ export default function Home() {
                 {animalData.locations.map((location) => (
                   <span
                     key={location}
-                    className={`bg-gradient-to-tl from-blue-400 to-blue-800 text-white px-3 py-1 rounded-full text-sm flex gap-2 items-center`} // Updated styling here
+                    className={`bg-gradient-to-tl from-blue-400 to-blue-800 text-white px-3 py-1 rounded-full text-sm flex gap-2 items-center`}
                   >
-                    <div key={location} className="relative w-6 h-6">
+                    <div className="relative w-6 h-6">
                       <Image
                         src={
-                          continentImages[location] ||
-                          '/images/default.png'
+                          continentImages[location] || '/images/default.png'
                         }
                         alt={location}
                         fill
@@ -149,8 +155,30 @@ export default function Home() {
                 ))}
               </div>
             </div>
+            {animalData.characteristics && (
+              <div className="rounded-md overflow-hidden">
+                <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                  Characteristics:
+                </h3>
+                <table className="w-full table-auto border-collapse border border-gray-400 text-gray-600">
+                  <tbody>
+                    {Object.entries(animalData.characteristics).map(
+                      ([key, value]) => (
+                        <tr key={key} className="border border-gray-400">
+                          <td className="border border-gray-400 px-2 py-1 font-medium">
+                            {capitalizeWords(key.split('_').join(' '))} 
+                          </td>
+                          <td className="border border-gray-400 px-2 py-1">
+                            {value}
+                          </td>
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
-          
         )}
       </div>
     </div>
