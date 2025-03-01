@@ -26,6 +26,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const apiKey = process.env.API_KEY;  
   const apiUrl = `https://api.api-ninjas.com/v1/animals?name=${encodeURIComponent(animalName)}`;
 
+  console.log('bobby 1', apiKey);
+  
+
   try {
 
     const response = await fetch(apiUrl, {
