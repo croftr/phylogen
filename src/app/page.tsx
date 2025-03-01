@@ -33,14 +33,13 @@ interface AnimalData {
 
 export default function Home() {
   const [animalName, setAnimalName] = useState<string>('');
-  const [submittedName, setSubmittedName] = useState<string>('');
   const [animalData, setAnimalData] = useState<AnimalData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSearch = async () => {
     setIsLoading(true);
-    setSubmittedName(animalName);
+    
     try {
       setError(null); // Reset error state
       const response = await fetch(
@@ -81,7 +80,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-start p-6">
       <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full flex flex-col">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Animal Taxonomy
+          {animalData?.name || 'Animal Taxonomy'}
         </h1>
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <input
@@ -112,9 +111,6 @@ export default function Home() {
         {animalData && (
           <div>
             <div className="bg-gray-50 p-4 rounded-md mb-4">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">
-                {animalData.name}
-              </h2>
               <div className="grid grid-cols-2 gap-y-2">
                 <p className="text-gray-600 font-medium">Kingdom:</p>
                 <p className="text-gray-600">{animalData.taxonomy.kingdom}</p>
