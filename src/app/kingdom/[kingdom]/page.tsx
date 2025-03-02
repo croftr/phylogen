@@ -39,9 +39,9 @@ export default function KingdomPage() {
   const phyla = isValidKingdom ? phylaByKingdom[kingdom as string] || [] : [];
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-start p-30">
+    <div className="relative min-h-screen flex flex-col items-center justify-start p-6 pt-30">
     
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 z-0 bg-cover bg-center">
         <Image
           src="/images/animals.jpg"
           alt="Background Animals"
@@ -50,13 +50,13 @@ export default function KingdomPage() {
         />
       </div>
     
-      <div className="relative z-10 bg-white shadow-md rounded-lg p-8 max-w-3xl w-full">
+      <div id="content" className="relative bg-gray-100 text-gray-600 max-w-4xl mx-auto p-8 rounded-lg shadow-md">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Kingdom: {kingdom}
         </h1>
         {isValidKingdom ? (
           phyla.length > 0 ? (
-            <div className="text-gray-600">
+            <div className="relative z-20 flex flex-col items-center justify-start">
               <h2 className="text-2xl font-semibold text-gray-700 mb-4">
                 Major Phyla
               </h2>
@@ -70,7 +70,7 @@ export default function KingdomPage() {
                     ) : (
                       <span className="font-medium">{phylum.name}:</span>
                     )}{' '}
-                    {phylum.description}
+                    <span className="text-sm text-gray-500">{phylum.description}</span>
                   </li>
                 ))}
               </ul>

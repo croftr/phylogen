@@ -62,7 +62,7 @@ export default function PhylumPage() {
     <div className="min-h-screen min-w-screen relative bg-gray-100 pt-30 text-gray-600">
       {/* Display the image directly */}
       {backgroundImage && (
-        <div className="absolute inset-0 z-0 bg-cover bg-center ring bg-red-800">
+        <div className="absolute inset-0 z-0 bg-cover bg-center">
           <Image
             src={backgroundImage}
             alt={`${phylum} background`}
