@@ -1,7 +1,8 @@
 'use client'; // Make it a client component
 // src/app/kingdom/[kingdom]/page.tsx
 import Image from 'next/image'; // Import the Image component
-import { useParams } from 'next/navigation'; //import the useParams hook.
+import Link from 'next/link'; // Import the Link component
+import { useParams } from 'next/navigation'; // Import the useParams hook
 
 interface PhylumInfo {
   name: string;
@@ -28,7 +29,7 @@ const phylaByKingdom: { [key: string]: PhylumInfo[] } = {
 };
 
 export default function KingdomPage() {
-  //Use the hook to read the path param.
+  // Use the hook to read the path param.
   const { kingdom } = useParams();
 
   // Check if the kingdom is valid.
@@ -40,7 +41,7 @@ export default function KingdomPage() {
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-start p-6">
     
-      <div className="absolute inset-0 -z-10 opacity-30">
+      <div className="absolute inset-0 -z-10">
         <Image
           src="/images/animals.jpg"
           alt="Background Animals"
@@ -49,7 +50,7 @@ export default function KingdomPage() {
         />
       </div>
     
-      <div className="bg-white shadow-md rounded-lg p-8 max-w-3xl w-full">
+      <div className="relative z-10 bg-white shadow-md rounded-lg p-8 max-w-3xl w-full">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Kingdom: {kingdom}
         </h1>
@@ -62,7 +63,13 @@ export default function KingdomPage() {
               <ul className="list-disc list-inside">
                 {phyla.map((phylum: PhylumInfo) => (
                   <li key={phylum.name} className="mb-2">
-                    <span className="font-medium">{phylum.name}:</span>{' '}
+                    {phylum.name === 'Chordata' ? (
+                      <Link href={`/phylum/${phylum.name}`} className="text-blue-500 hover:underline">
+                        {phylum.name}
+                      </Link>
+                    ) : (
+                      <span className="font-medium">{phylum.name}:</span>
+                    )}{' '}
                     {phylum.description}
                   </li>
                 ))}
