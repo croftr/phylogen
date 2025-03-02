@@ -39,7 +39,7 @@ export default function KingdomPage() {
   const phyla = isValidKingdom ? phylaByKingdom[kingdom as string] || [] : [];
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-start p-6">
+    <div className="relative min-h-screen flex flex-col items-center justify-start p-30">
     
       <div className="absolute inset-0 -z-10">
         <Image

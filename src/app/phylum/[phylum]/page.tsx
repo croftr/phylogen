@@ -59,7 +59,7 @@ export default function PhylumPage() {
   const phylumDetail = phylumDetails[phylum];
 
   return (
-    <div className="min-h-screen min-w-screen relative bg-gray-100 pt-10 text-gray-600">
+    <div className="min-h-screen min-w-screen relative bg-gray-100 pt-30 text-gray-600">
       {/* Display the image directly */}
       {backgroundImage && (
         <div className="absolute inset-0 z-0 bg-cover bg-center ring bg-red-800">
