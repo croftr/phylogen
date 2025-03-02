@@ -99,9 +99,8 @@ export default function Home() {
           <button
             onClick={handleSearch}
             disabled={isLoading}
-            className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md w-full sm:w-auto transition-colors duration-200 ${
-              isLoading ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
+            className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md w-full sm:w-auto transition-colors duration-200 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
           >
             {isLoading ? 'Searching...' : 'Search'}
           </button>
@@ -113,7 +112,7 @@ export default function Home() {
           <div>
             <div className="bg-gray-50 p-4 rounded-md mb-4">
               <div className="grid grid-cols-2 gap-y-2">
-                <p className="text-gray-600 font-medium">Kingdom:</p>                
+                <p className="text-gray-600 font-medium">Kingdom:</p>
                 <p className="text-gray-600">
                   <Link href={`/kingdom/${animalData.taxonomy.kingdom}`} className="text-blue-500 hover:underline">
                     {animalData.taxonomy.kingdom}
@@ -121,7 +120,11 @@ export default function Home() {
                 </p>
 
                 <p className="text-gray-600 font-medium">Phylum:</p>
-                <p className="text-gray-600">{animalData.taxonomy.phylum}</p>
+                <p className="text-gray-600">
+                  <Link href={`/phylum/${animalData.taxonomy.phylum}`} className="text-blue-500 hover:underline">
+                    {animalData.taxonomy.phylum}
+                  </Link>
+                </p>
 
                 <p className="text-gray-600 font-medium">Class:</p>
                 <p className="text-gray-600">{animalData.taxonomy.class}</p>
