@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link'; // Import Link
 
 const continentImages: { [key: string]: string } = {
   Africa: '/images/africa.png',
@@ -39,11 +40,11 @@ export default function Home() {
 
   const handleSearch = async () => {
     setIsLoading(true);
-    
+
     try {
       setError(null); // Reset error state
       const response = await fetch(
-        `/api/animal?animalName=${encodeURIComponent(animalName)}`
+        `/api/animal?animalName=${encodeURIComponent(animalName.trim())}`
       );
       if (!response.ok) {
         if (response.status === 404) {
@@ -112,8 +113,12 @@ export default function Home() {
           <div>
             <div className="bg-gray-50 p-4 rounded-md mb-4">
               <div className="grid grid-cols-2 gap-y-2">
-                <p className="text-gray-600 font-medium">Kingdom:</p>
-                <p className="text-gray-600">{animalData.taxonomy.kingdom}</p>
+                <p className="text-gray-600 font-medium">Kingdom:</p>                
+                <p className="text-gray-600">
+                  <Link href={`/kingdom/${animalData.taxonomy.kingdom}`} className="text-blue-500 hover:underline">
+                    {animalData.taxonomy.kingdom}
+                  </Link>
+                </p>
 
                 <p className="text-gray-600 font-medium">Phylum:</p>
                 <p className="text-gray-600">{animalData.taxonomy.phylum}</p>
