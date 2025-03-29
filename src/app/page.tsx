@@ -39,10 +39,13 @@ export default function Home() {
   const [animalImage, setAnimalImage] = useState<string | null>(null); // State for the image URL
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [animalSummary, setAnimalSummary] = useState('');
+
 
   const handleSearch = async () => {
     setIsLoading(true);
     setAnimalImage(null)
+    setAnimalSummary('');
 
     try {
       setError(null); // Reset error state
@@ -51,18 +54,34 @@ export default function Home() {
       );
       if (!response.ok) {
         if (response.status === 404) {
+
+          console.log('gooo');
+
           setError(`What the hell is a "${animalName}"?`);
           setAnimalData(null);
 
           const imageResponse = await fetch(
             `/api/animal/image?animalName=${encodeURIComponent(animalName.trim())}&isRealAnimal=false`
           );
+
+
           if (imageResponse.ok) {
             const imageBlob = await imageResponse.blob();
             const imageUrl = URL.createObjectURL(imageBlob); // Create a URL for the image
             setAnimalImage(imageUrl);
           } else {
             setAnimalImage(null); // Reset image if fetching fails
+          }
+
+
+          const madeUpAnimalResponsse = await fetch(
+            `/api/animal/summary?animalName=${encodeURIComponent(animalName.trim())}`
+          );
+
+          if (madeUpAnimalResponsse.ok) {
+            const summaryText = await madeUpAnimalResponsse.text();
+            console.log('step 2 ', summaryText);
+            setAnimalSummary(summaryText);
           }
 
           return;
@@ -221,9 +240,15 @@ export default function Home() {
           </div>
         )}
 
+        {animalSummary && (
+          <div className="bg-gray-50 p-4 rounded-md mb-4">
+            <p className="text-black">{animalSummary}</p>
+          </div>
+        )}
+
         {animalData && animalData.summary && (
           <div className="bg-gray-50 p-4 rounded-md mb-4">
-            <p className="text-gray-600">{animalData.summary}</p>
+            <p className="text-black">{animalData.summary}</p>
           </div>
         )}
 
