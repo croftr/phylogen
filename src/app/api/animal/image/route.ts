@@ -6,16 +6,14 @@ const ai = new GoogleGenAI({ apiKey: 'AIzaSyD4sh1ADtL3ZF31Btegl0Z3Bk4WG83pipQ' }
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);
+  const isRealAnimal = searchParams.get("isRealAnimal");
   const animalName = searchParams.get("animalName");
-
 
   if (!animalName) {
     return NextResponse.json({ error: "Animal name is required" }, { status: 400 });
   }
-
-  console.log('step 1');
-  
-  const contents = `Create a realistic image of a ${animalName} in its natural habitat.`;
+    
+  const contents = isRealAnimal === 'false' ? `Create a cartoon picture of a mythical or alien animal that looks like it could never exist in reality thats called a ${animalName}.` : `Create a realistic image of a ${animalName} in its natural habitat.`;
 
   console.log(contents);
   
@@ -28,8 +26,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       config: {
         responseModalities: ['Text', 'Image']
       },
-    });
-    console.log('Response from Gemini API:', response);
+    });    
 
     // Extract the image data from the response
     // Check if the response contains image data
