@@ -57,7 +57,7 @@ export default function Home() {
 
           console.log('gooo');
 
-          setError(`What the hell is a "${animalName}"?`);
+          setError(`What the hell is a "${animalName.trim()}"?`);
           setAnimalData(null);
 
           const imageResponse = await fetch(
