@@ -18,7 +18,7 @@ interface AnimalData {
   summary?: string; // Add a field for the summary
 }
 
-const ai = new GoogleGenAI({ apiKey: 'AIzaSyD4sh1ADtL3ZF31Btegl0Z3Bk4WG83pipQ' }); // Initialize Gemini API client
+const ai = new GoogleGenAI({ apiKey: 'AIzaSyD4sh1ADtL3ZF31Btegl0Z3Bk4WG83pipQ' }); 
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);

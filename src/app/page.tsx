@@ -62,7 +62,7 @@ export default function Home() {
 
       // Fetch the image
       const imageResponse = await fetch(
-        `/api/animal/image?animalName=${encodeURIComponent(animalName.trim())}`
+        `/api/animal/image?animalName=${encodeURIComponent(data?.name.trim())}`
       );
       if (imageResponse.ok) {
         const imageBlob = await imageResponse.blob();
@@ -94,10 +94,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-start p-6">
-      <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full flex flex-col">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          {animalData?.name || 'Animal Taxonomy'}
-        </h1>
+      <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full flex flex-col">        
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <input
             type="text"
@@ -121,6 +118,10 @@ export default function Home() {
             {isLoading ? 'Searching...' : 'Search'}
           </button>
         </div>
+
+        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          {animalData?.name || 'Animal Taxonomy'}
+        </h1>
 
         {error && <p className="text-red-500 mb-4">{error}</p>}
 
