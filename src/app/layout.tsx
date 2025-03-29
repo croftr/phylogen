@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Animal Taxonomy",
-  description: "Animal Taxonomy",
+  title: "Life Tree",
+  description: "Life Tree",
 };
 
 export default function RootLayout({
