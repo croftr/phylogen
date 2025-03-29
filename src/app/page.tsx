@@ -132,7 +132,7 @@ export default function Home() {
             type="text"
             value={animalName}
             onChange={(e) => setAnimalName(e.target.value)}
-            placeholder="Enter animal name (e.g., lion)"
+            placeholder="Enter the name of an animal that actually exists"
             className="border border-gray-300 px-4 py-2 rounded-md w-full sm:w-auto text-black "
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
