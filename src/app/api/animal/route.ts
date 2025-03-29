@@ -1,6 +1,7 @@
 // app/api/animal/route.ts (API route with TypeScript)
 
 import { NextRequest, NextResponse } from 'next/server';
+import { GoogleGenAI } from '@google/genai'; // Import GoogleGenAI
 
 interface AnimalData {
   name: string;
@@ -12,8 +13,12 @@ interface AnimalData {
     family: string;
     genus: string;
   };
-  // ... other properties from the API response
+  locations?: string[];
+  characteristics?: Record<string, string>;
+  summary?: string; // Add a field for the summary
 }
+
+const ai = new GoogleGenAI({ apiKey: 'AIzaSyD4sh1ADtL3ZF31Btegl0Z3Bk4WG83pipQ' }); // Initialize Gemini API client
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);
@@ -23,19 +28,17 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'Animal name is required' }, { status: 400 });
   }
 
-
-  const randomString = 'UMTGp4WbK3k1F+cx2rT1VQ==ggieWfvctGM9xctZ';  
   const apiUrl = `https://api.api-ninjas.com/v1/animals?name=${encodeURIComponent(animalName)}`;
-  console.log('bobby 1', randomString);
-  
-  try {
+  const apiKey = 'UMTGp4WbK3k1F+cx2rT1VQ==ggieWfvctGM9xctZ'; // Replace with your actual API key
 
+  try {
+    // Fetch animal data from the external API
     const response = await fetch(apiUrl, {
-        headers: {
-          'X-Api-Key': randomString as string, 
-        },
-      });
-    
+      headers: {
+        'X-Api-Key': apiKey,
+      },
+    });
+
     if (!response.ok) {
       throw new Error(`API request failed with status ${response.status}`);
     }
@@ -43,7 +46,22 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const data: AnimalData[] = await response.json();
 
     if (data && data.length > 0) {
-      return NextResponse.json(data[0]);
+      const animalData = data[0];
+
+      // Fetch the summary using Gemini API
+      try {
+        const summaryResponse = await ai.models.generateContent({
+          model: 'gemini-2.0-flash',
+          contents: `Provide a brief summary about the animal species: ${animalData.name}`,
+        });
+
+        animalData.summary = summaryResponse.text; // Add the summary to the response
+      } catch (summaryError) {
+        console.error('Error fetching summary from Gemini API:', summaryError);
+        animalData.summary = 'Summary not available.';
+      }
+
+      return NextResponse.json(animalData);
     } else {
       return NextResponse.json({ error: 'Animal not found' }, { status: 404 });
     }
@@ -52,4 +70,3 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
-

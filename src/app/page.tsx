@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link'; // Import Link
+import Link from 'next/link';
 
 const continentImages: { [key: string]: string } = {
   Africa: '/images/africa.png',
@@ -30,11 +30,13 @@ interface AnimalData {
   };
   locations: string[];
   characteristics: Record<string, string>;
+  summary?: string;
 }
 
 export default function Home() {
   const [animalName, setAnimalName] = useState<string>('');
   const [animalData, setAnimalData] = useState<AnimalData | null>(null);
+  const [animalImage, setAnimalImage] = useState<string | null>(null); // State for the image URL
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -48,19 +50,32 @@ export default function Home() {
       );
       if (!response.ok) {
         if (response.status === 404) {
-          setError(`The animal "${animalName}" does not exist.  This app is only intended to be used by professional biologists or those informed on animal matters.`); // Specific 404 message
+          setError(`The animal "${animalName}" does not exist.`);
           setAnimalData(null);
-          return; // Exit early after setting the 404 error
+          return;
         } else {
-          throw new Error('Failed to fetch animal data'); // Generic error for other issues
+          throw new Error('Failed to fetch animal data');
         }
       }
       const data: AnimalData = await response.json();
       setAnimalData(data);
+
+      // Fetch the image
+      const imageResponse = await fetch(
+        `/api/animal/image?animalName=${encodeURIComponent(animalName.trim())}`
+      );
+      if (imageResponse.ok) {
+        const imageBlob = await imageResponse.blob();
+        const imageUrl = URL.createObjectURL(imageBlob); // Create a URL for the image
+        setAnimalImage(imageUrl);
+      } else {
+        setAnimalImage(null); // Reset image if fetching fails
+      }
     } catch (err) {
       console.error(err);
-      setError('API error'); // Generic error message
+      setError('API error');
       setAnimalData(null);
+      setAnimalImage(null);
     } finally {
       setIsLoading(false);
     }
@@ -73,7 +88,7 @@ export default function Home() {
   function capitalizeWords(str: string): string {
     return str
       .split(' ')
-      .map(word => capitalize(word))
+      .map((word) => capitalize(word))
       .join(' ');
   }
 
@@ -99,8 +114,9 @@ export default function Home() {
           <button
             onClick={handleSearch}
             disabled={isLoading}
-            className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md w-full sm:w-auto transition-colors duration-200 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+            className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md w-full sm:w-auto transition-colors duration-200 ${
+              isLoading ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
           >
             {isLoading ? 'Searching...' : 'Search'}
           </button>
@@ -114,14 +130,20 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-y-2">
                 <p className="text-gray-600 font-medium">Kingdom:</p>
                 <p className="text-gray-600">
-                  <Link href={`/kingdom/${animalData.taxonomy.kingdom}`} className="text-blue-500 hover:underline">
+                  <Link
+                    href={`/kingdom/${animalData.taxonomy.kingdom}`}
+                    className="text-blue-500 hover:underline"
+                  >
                     {animalData.taxonomy.kingdom}
                   </Link>
                 </p>
 
                 <p className="text-gray-600 font-medium">Phylum:</p>
                 <p className="text-gray-600">
-                  <Link href={`/phylum/${animalData.taxonomy.phylum}`} className="text-blue-500 hover:underline">
+                  <Link
+                    href={`/phylum/${animalData.taxonomy.phylum}`}
+                    className="text-blue-500 hover:underline"
+                  >
                     {animalData.taxonomy.phylum}
                   </Link>
                 </p>
@@ -140,6 +162,26 @@ export default function Home() {
               </div>
             </div>
 
+            {animalImage && (
+              <div className="bg-gray-50 p-4 rounded-md mb-4">                
+                <Image
+                  src={animalImage}
+                  alt={`Generated image of ${animalName}`}
+                  width={400}
+                  height={300}
+                  className="rounded-md"
+                />
+              </div>
+            )}
+
+            {/* New Summary Section */}
+            {animalData.summary && (
+              <div className="bg-gray-50 p-4 rounded-md mb-4">              
+                <p className="text-gray-600">{animalData.summary}</p>
+              </div>
+            )}
+
+                        
             <div className="mb-4">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">
                 Found in:
@@ -152,9 +194,7 @@ export default function Home() {
                   >
                     <div className="relative w-6 h-6">
                       <Image
-                        src={
-                          continentImages[location] || '/images/default.png'
-                        }
+                        src={continentImages[location] || '/images/default.png'}
                         alt={location}
                         fill
                         className="rounded-full"
@@ -165,6 +205,7 @@ export default function Home() {
                 ))}
               </div>
             </div>
+
             {animalData.characteristics && (
               <div className="rounded-md overflow-hidden">
                 <h3 className="text-lg font-semibold text-gray-700 mb-2">
