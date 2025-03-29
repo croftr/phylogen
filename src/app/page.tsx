@@ -51,7 +51,7 @@ export default function Home() {
       );
       if (!response.ok) {
         if (response.status === 404) {
-          setError(`There is no such animal "${animalName}".  This application is only meant for those familair with the animal kingdom.`);
+          setError(`What the hell is a "${animalName}"?`);
           setAnimalData(null);
 
           const imageResponse = await fetch(
@@ -115,8 +115,8 @@ export default function Home() {
           </h1>
           <div>
             <Image
-              src="/favicon.ico" // Path to the favicon
-              alt="AnimalAtlas Logo"
+              src="/images/logo.ico" // Path to the favicon
+              alt="Life tee Logo"
               width={30} // Adjust the width as needed
               height={30} // Adjust the height as needed
               className="rounded-full"
@@ -154,7 +154,11 @@ export default function Home() {
           {animalData?.name}
         </h1>
 
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {error && (
+          <p className="text-red-500 text-center text-xl mb-2 -mt-6 font-medium">
+            {error}
+          </p>
+        )}
 
         {animalData && (
           <div>
