@@ -134,10 +134,10 @@ export default function Home() {
           </h1>
           <div>
             <Image
-              src="/images/logo.ico" // Path to the favicon
+              src="/images/logo.ico"
               alt="Life tee Logo"
-              width={30} // Adjust the width as needed
-              height={30} // Adjust the height as needed
+              width={30} 
+              height={30}
               className="rounded-full"
             />
           </div>
@@ -151,7 +151,7 @@ export default function Home() {
             type="text"
             value={animalName}
             onChange={(e) => setAnimalName(e.target.value)}
-            placeholder="Enter the name of an animal that actually exists"
+            placeholder="Seatch any animal..."
             className="border border-gray-300 px-4 py-2 rounded-md w-full sm:w-auto text-black "
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
