@@ -125,7 +125,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-start p-6">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-start">
       <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full flex flex-col">
 
         <div className="mb-4 flex gap-4 items-baseline align-self-center justify-center">
