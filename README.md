@@ -52,10 +52,10 @@ The application exposes the following API endpoints:
     Create a `.env.local` file in the root directory and add your API keys:
     ```env
     # Required for /api/animal endpoint
-    API_NINJAS_KEY=UMTGp4WbK3k1F+cx2rT1VQ==ggieWfvctGM9xctZ # Replace with your actual api-ninjas.com key
+    API_NINJAS_KEY=mykey # Replace with your actual api-ninjas.com key
 
     # Required for all AI features (/api/animal, /api/animal/summary, /api/animal/image)
-    GOOGLE_AI_API_KEY=AIzaSyD4sh1ADtL3ZF31Btegl0Z3Bk4WG83pipQ # Replace with your actual Google AI API key
+    GOOGLE_AI_API_KEY=mykey # Replace with your actual Google AI API key
     ```
     *(Note: The keys shown above are placeholders found in the code and should be replaced with your actual, secured keys).*
 
