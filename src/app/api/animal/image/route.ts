@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-import { GoogleGenAI } from "@google/genai"; // Import GoogleGenAI
-import { Buffer } from "buffer"; // Import Buffer for handling binary data
+import { type NextRequest, NextResponse } from "next/server";
+import { GoogleGenAI } from "@google/genai";
+import { Buffer } from "node:buffer"; 
 
 const ai = new GoogleGenAI({ apiKey: 'AIzaSyD4sh1ADtL3ZF31Btegl0Z3Bk4WG83pipQ' }); 
 
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       (part) => part.inlineData !== null
     );
 
-    if (imagePart && imagePart.inlineData?.data) {
+    if (imagePart?.inlineData?.data) {
       const imageData = imagePart.inlineData.data; // Base64-encoded image data
       const buffer = Buffer.from(imageData, 'base64'); // Convert Base64 to binary
 
@@ -48,12 +48,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           "Content-Disposition": `inline; filename="${animalName}.png"`,
         },
       });
-    } else {
-      console.error('Image data not found in response.');
-      return NextResponse.json({ error: "Image generation failed" }, { status: 500 });
-    }
+    } 
   } catch (error) {
     console.error('API request error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
+
+  // Default return statement to handle any unexpected code paths
+  return NextResponse.json({ error: 'Unexpected error occurred' }, { status: 500 });
 }

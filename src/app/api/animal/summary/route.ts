@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai"; // Import GoogleGenAI
 
 
@@ -13,9 +13,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "Animal name is required" }, { status: 400 });
   }
     
-
-
-  let animalSummary;
+  let animalSummary: string|undefined = undefined; 
   try {
   
       try {
