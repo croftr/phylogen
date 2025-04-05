@@ -195,6 +195,16 @@ export default function Home() {
 								</p>
 
 								<p className="text-gray-600 font-medium">Class:</p>
+
+								<p className="text-gray-600">
+									<Link
+										href={`/class/${animalData.taxonomy.class}`}
+										className="text-blue-500 hover:underline"
+									>
+										{animalData.taxonomy.class}
+									</Link>
+								</p>
+
 								<p className="text-gray-600">{animalData.taxonomy.class}</p>
 
 								<p className="text-gray-600 font-medium">Order:</p>
