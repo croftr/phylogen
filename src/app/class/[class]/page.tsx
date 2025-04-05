@@ -96,11 +96,6 @@ const animalClassData: Record<string, AnimalClassInfo> = {
 	// aves: { ... } // Add other classes here
 };
 
-// --- Component Prop Interface ---
-interface ClassDisplayProps {
-	data: AnimalClassInfo; // Accepts the data for the specific class
-}
-
 // --- Main Page Component ---
 // This remains in src/app/class/[class]/page.tsx
 export default function AnimalClassPage() {
@@ -130,7 +125,7 @@ export default function AnimalClassPage() {
 				return (
 					<div className="text-center p-10 bg-yellow-100 border border-yellow-300 rounded-lg">
 						<p className="font-semibold text-yellow-800">
-							Display component for '{className}' is not implemented yet.
+							Display component for {className} is not implemented yet.
 						</p>
 					</div>
 				);
@@ -144,16 +139,13 @@ export default function AnimalClassPage() {
 				<div className="bg-white p-8 rounded-lg shadow-md text-center">
 					<h1 className="text-2xl font-bold text-red-600 mb-4">Class Not Found</h1>
 					<p className="text-gray-700 mb-6">
-						Sorry, we don't have information for the class:{" "}
+						Sorry we dont have information for the class:{" "}
 						<span className="font-semibold">{paramClass || "Unknown"}</span>
 					</p>
 					<Link href="/" legacyBehavior>
-						<a
-							href="/"
-							className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-						>
+						<p className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
 							Go Back Home
-						</a>
+						</p>
 					</Link>
 				</div>
 			</div>

@@ -9,7 +9,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
 	const isRealAnimal = searchParams.get("isRealAnimal");
 	const animalName = searchParams.get("animalName");
-	const isHigherOrder = searchParams.get("isHigherOrder");
 
 	if (!animalName) {
 		return NextResponse.json({ error: "Animal name is required" }, { status: 400 });
